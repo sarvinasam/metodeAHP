@@ -1,0 +1,40 @@
+{% extends 'home.html' %}
+{% block title %}Tambah Kriteria{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Tambah Kriteria</h1>
+    <form method="POST">
+        <label for="nama">Nama Kriteria:</label>
+        <input type="text" id="nama" name="nama" required>
+        <input type="submit" value="Tambah" class="button">
+    </form>
+</div>
+<style>
+    .container {
+        background-color: #e0f7fa;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+    input[type="text"], input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'home.html' %}
+{% block title %}Perbandingan Kriteria{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Perbandingan Kriteria</h1>
+    <form method="POST" action="{{ url_for('save_comparison') }}">
+        <div class="flex-container">
+            <div>
+                <table>
+                    <tr>
+                        <th>Kriteria 1</th>
+                        <th>Kriteria 2</th>
+                        <th>Nilai Perbandingan</th>
+                    </tr>
+                    {% for comparison in comparisons %}
+                    <tr>
+                        <td> {{ comparison['option1'] }} </td>
+                        <td> {{ comparison['option2'] }}  </td>
+                        <td>
+                            <input type="text" name="{{ comparison['name'] }}_value" value="{{ comparison['value'] }}">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <button type="submit">Submit</button>
+            </div>
+            <div style="margin-top:20px;"> 
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">Nama</th>
+                            {% for item in kriteria %}
+                                <th style="text-align: center;">{{ item.nama_kriteria }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i, row in matrix_rows %}  <!-- Gunakan enumerate langsung -->
+                            <tr>
+                                <td style="text-align: center;">{{ kriteria[i].nama_kriteria }}</td>  
+                                {% for value in row %}
+                                    <td style="text-align: center;">{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<style>
+.container {
+    width: 100%;
+    margin: auto;
+    padding : 0;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+}
+
+
+
+.scale-table{
+    margin-right: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+   
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+</style>
+{% endblock %}

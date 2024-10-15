@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Data</title>
+  </head>
+  <body>
+    <h1>Add Data</h1>
+    <form method="POST" action="{{ url_for('add') }}">
+      <label for="Nama">Tambahkan Kriteria:</label>
+      <input type="text" id="Nama" name="Nama" required>
+      <button type="submit">Add Data</button>
+    </form>
+  </body>
+</html>

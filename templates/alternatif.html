@@ -1,0 +1,41 @@
+{% extends 'home.html' %}
+{% block title %}Alternatif{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Alternatif (Mahasiswa Calon Penerima KIP-K)</h1>
+    <p>Tambahkan alternatif di halaman ini</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Mahasiswa</th>
+              <!-- <th>Gaji Ayah</th>
+              <th>Gaji Ibu</th>
+              <th>Jumlah Tanggungan</th>
+              <th>Pembayaran Listrik</th> -->
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in data %}
+              <tr>
+                <td>{{loop.index }}</td>
+                <td>{{ item.nama_mahasiswa }}</td>
+                <!-- <td>{{ item.Gaji_Ayah }}</td>
+                <td>{{ item.Gaji_Ibu }}</td>
+                <td>{{ item.Jumlah_Tanggungan }}</td> 
+                <td>{{ item.Pembayaran_Listrik }}</td>  -->
+                <td>
+                  <a href="{{ url_for('add_sub', id=item.id)}}" class="button">Tambahkan Data</a>
+                  <a href="{{ url_for('edit_alternatif', id=item.id) }}" class="button">Edit</a>
+                  <a href="{{ url_for('delete_alternatif', id=item.id) }}" id="delete_button" class="button">Hapus</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          </table>
+          <a href="{{ url_for('add_alternatif') }}" class="button">Tambah Mahasiswa</a>
+
+</div>
+{% endblock %}

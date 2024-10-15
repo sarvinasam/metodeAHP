@@ -1,0 +1,119 @@
+{% extends 'home.html' %}
+{% block title %}Perbandingan Kriteria{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Perbandingan Alternatif (Mahasiswa Calon Penerima KIP-K)</h1>
+    <div class="button-group">
+        {% for criterion in kriteria %}
+        <button type="button" class="btn btn-primary" data-kriteria="{{ criterion.nama_kriteria }}">{{ criterion.nama_kriteria }}</button>
+        {% endfor %}
+    </div>
+
+    <div id="comparison-table" style="display: none;">
+        <form method="POST" action="{{ url_for('perbandingan_alternatif') }}">
+            <input type="hidden" id="selected_kriteria" name="selected_kriteria">
+            <table>
+                <tr>
+                    <th>Nama Mahasiswa</th>
+                    <th>Nilai Kriteria</th>
+                    <th>Nilai Perbandingan</th>
+                    <th>Nama Mahasiswa</th>
+                    <th>Nilai Kriteria</th>
+                </tr>
+                <tbody id="table-body"></tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.button-group button');
+    const comparisonTable = document.getElementById('comparison-table');
+    const selectedKriteriaInput = document.getElementById('selected_kriteria');
+    const tableBody = document.getElementById('table-body');
+
+    buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const kriteria = button.dataset.kriteria;
+        selectedKriteriaInput.value = kriteria;
+        comparisonTable.style.display = 'block';
+        tableBody.innerHTML = ''; // Clear previous table content
+
+        const alternatifData = JSON.parse('{{ alternatif | tojson }}');
+
+        // Fetch and display sub-criteria based on selected criteria
+        fetch(`/get_sub_kriteria/${kriteria}`)
+        .then(response => response.json())
+        .then(data => {
+            // Correctly handle indexing for data and alternatif
+            for (let i = 0; i < alternatifData.length; i++) {
+            for (let j = i + 1; j < alternatifData.length; j++) { // Compare i with all j > i
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td>${alternatifData[i].nama_mahasiswa}</td>
+                <td>${data[i].sub_kriteria}</td>
+                <td>
+                    <input type="text" name="${alternatifData[i].nama_mahasiswa}_${alternatifData[j].nama_mahasiswa}_value" value="">
+                </td>
+                <td>${alternatifData[j].nama_mahasiswa}</td>
+                <td>${data[j].sub_kriteria}</td>
+                `;
+
+                // Fetch existing comparison value from database
+                fetch(`/get_comparison_value/${kriteria}/${alternatifData[i].nama_mahasiswa}/${alternatifData[j].nama_mahasiswa}`)
+                .then(response => response.json())
+                .then(comparison => {
+                    // Set the input value to the fetched comparison value
+                    const input = tr.querySelector('input[type="text"]');
+                    input.value = comparison.nilai || 1; // Default to 1 if no comparison found
+                });
+
+                tableBody.appendChild(tr);
+            }
+            }
+        });
+    });
+});
+</script>
+
+
+<style>
+.container {
+    width: 100%;
+    margin: auto;
+    padding: 0;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.scale-table {
+    margin-right: 0; /* Ensure there is no margin on the right side */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+</style>
+{% endblock %}

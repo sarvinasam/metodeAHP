@@ -1,0 +1,48 @@
+{% extends 'home.html' %}
+{% block title %}Tambah Data Mahasiswa{% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Tambah Data Mahasiswa</h1>
+    <form method="POST">
+        <label for="nama">Nama Mahasiswa:</label>
+        <input type="text" id="nama" name="nama" value="{{alternatif.nama_mahasiswa}}" required>
+      
+        {% for kriteria in kriteria_list %}
+          <label for="sub_kriteria_{{ kriteria.id }}">{{ kriteria.nama_kriteria }}</label>
+          <input type="text" id="sub_kriteria_{{ kriteria.id }}" name="sub_kriteria_{{ kriteria.id }}" 
+                 value="{{ existing_sub_kriteria[kriteria.id].sub_kriteria if existing_sub_kriteria[kriteria.id] else '' }}">
+          <br>
+        {% endfor %}
+      
+        <button type="submit">Simpan</button>
+      </form>
+</div>
+<style>
+    .container {
+        background-color: #e0f7fa;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+    input[type="text"], input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}

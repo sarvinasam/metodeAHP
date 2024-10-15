@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Data</title>
+  </head>
+  <body>
+    <h1>Edit Data</h1>
+    <form method="POST" action="{{ url_for('edit', id=item['id']) }}">
+      <label for="Nama">Nama:</label>
+      <input type="text" id="Nama" name="Nama" value="{{ item.Nama }}">
+      <br>
+      <label for="Gaji_Ayah">Gaji Ayah:</label>
+      <input type="number" id="Gaji_Ayah" name="Gaji_Ayah" value="{{ item.Gaji_Ayah }}">
+      <br>
+      <label for="Gaji_Ibu">Gaji Ibu:</label>
+      <input type="number" id="Gaji_Ibu" name="Gaji_Ibu" value="{{ item.Gaji_Ibu }}">
+      <br>
+      <label for="Jumlah_Tanggungan">Jumlah Tanggungan:</label>
+      <input type="number" id="Jumlah_Tanggungan" name="Jumlah_Tanggungan" value="{{ item.Jumlah_Tanggungan }}">
+      <br>
+      <label for="Pembayaran_Listrik">Pembayaran Listrik:</label>
+      <input type="number" id="Pembayaran_Listrik" name="Pembayaran_Listrik" value="{{ item.Pembayaran_Listrik }}">
+      <br>
+      <button type="submit">Save Changes</button>
+    </form>
+  </body>
+</html>
